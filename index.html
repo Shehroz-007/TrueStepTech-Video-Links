@@ -3,140 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080f">
 <title>TrueStepTech | Video Links</title>
 <style>
 :root{
-  --bg:#090d16; --card:rgba(255,255,255,.04); --border:rgba(255,255,255,.09);
-  --glow:rgba(59,130,246,.45); --yt:#ff0033; --ytglow:rgba(255,0,51,.4);
-  --text:#f8fafc; --muted:#94a3b8;
+  --bg:#05080f; --panel:rgba(12,20,36,.75); --line:rgba(120,160,220,.16);
+  --cyan:#22d3ee; --blue:#3b82f6; --green:#34d399; --red:#ff3b5c; --orange:#ff7a3d;
+  --text:#e6edf7; --muted:#7d8ba3;
+  --mono:ui-monospace,SFMono-Regular,"Cascadia Code",Consolas,Menlo,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
 body{
-  min-height:100vh;background:var(--bg);
-  background-image:radial-gradient(circle at 20% 20%,rgba(59,130,246,.15),transparent 45%),
-                   radial-gradient(circle at 80% 80%,rgba(139,92,246,.12),transparent 45%);
-  color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  display:flex;justify-content:center;padding:40px 20px 50px;
+  min-height:100vh;color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% -5%,rgba(34,211,238,.16),transparent 70%),
+    radial-gradient(ellipse 50% 40% at 100% 100%,rgba(59,130,246,.12),transparent 70%),
+    linear-gradient(rgba(120,170,255,.045) 1px,transparent 1px) 0 0/44px 44px,
+    linear-gradient(90deg,rgba(120,170,255,.045) 1px,transparent 1px) 0 0/44px 44px,
+    var(--bg);
+  background-attachment:fixed;
+  display:flex;justify-content:center;padding:44px 18px 56px;
 }
-.wrapper{width:100%;max-width:500px;display:flex;flex-direction:column;gap:24px}
-header{text-align:center}
-header h1{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px;
-  background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-header p{color:var(--muted);font-size:14px}
+.wrapper{width:100%;max-width:520px;display:flex;flex-direction:column;gap:26px}
 
+/* ---------- Header ---------- */
+header{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:56px;height:56px;flex-shrink:0;filter:drop-shadow(0 0 14px rgba(34,211,238,.45))}
+.wordmark{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1}
+.wordmark span{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tag{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.tag b{color:var(--cyan);font-weight:600}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:1.2px;
+  color:var(--green);padding:6px 12px;border-radius:999px;border:1px solid rgba(52,211,153,.3);background:rgba(52,211,153,.07)}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.8s ease-in-out infinite}
+
+/* ---------- Cards ---------- */
 .links-feed{display:flex;flex-direction:column;gap:16px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;
-  backdrop-filter:blur(14px);transition:border-color .25s}
-.card:hover{border-color:rgba(59,130,246,.4)}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.card-title{font-size:17px;font-weight:600;line-height:1.4}
-.badge{background:rgba(59,130,246,.2);color:#60a5fa;border:1px solid rgba(59,130,246,.4);
-  font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.card{
+  --brk:var(--red);
+  position:relative;padding:18px;border-radius:14px;
+  background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(12px);
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+  animation:rise .5s ease both;
+}
+.card[data-state="verifying"]{--brk:var(--cyan)}
+.card[data-state="unlocked"]{--brk:var(--green)}
+.card::before,.card::after{content:"";position:absolute;width:18px;height:18px;border:2px solid var(--brk);transition:border-color .3s}
+.card::before{top:-1px;left:-1px;border-right:0;border-bottom:0;border-top-left-radius:14px}
+.card::after{bottom:-1px;right:-1px;border-left:0;border-top:0;border-bottom-right-radius:14px}
+.card:hover{transform:translateY(-3px);border-color:rgba(34,211,238,.35);box-shadow:0 14px 36px -14px rgba(0,0,0,.8),0 0 24px -10px rgba(34,211,238,.35)}
+.card-top{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-family:var(--mono);font-size:11px;letter-spacing:1px}
+.idx{color:var(--muted)}
+.spacer{flex:1}
+.chip,.badge{padding:3px 9px;border-radius:6px;font-weight:600;border:1px solid}
+.badge{color:var(--cyan);border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.1)}
+.chip{transition:all .3s}
+.card[data-state="locked"] .chip{color:#ff6b84;border-color:rgba(255,59,92,.4);background:rgba(255,59,92,.1)}
+.card[data-state="verifying"] .chip{color:var(--cyan);border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.1)}
+.card[data-state="unlocked"] .chip{color:var(--green);border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.1)}
+.card-title{font-size:18px;font-weight:650;line-height:1.4;margin-bottom:16px}
 
-/* ---------- Cat hiding behind the buttons ---------- */
-.peek{position:relative;height:74px;pointer-events:none;
-  clip-path:inset(-200px -200px 0 -200px)}   /* only the bottom edge clips: the cat appears from behind the buttons */
-.cat{position:absolute;bottom:0;left:var(--x,50%);width:120px;margin-left:-60px;
-  transform:translateY(108%);transition:transform 1s cubic-bezier(.4,0,.2,1),left .6s ease}
-.cat-inner{transform-origin:50% 100%}
-.cat svg{display:block;width:120px;height:92px;overflow:visible}
-.card[data-mood="sad"] .cat{transform:translateY(0);transition:transform 1.8s cubic-bezier(.2,.7,.2,1),left .6s ease}
-.card[data-mood="happy"] .cat{transform:translateY(0);transition:transform 1.3s cubic-bezier(.2,.7,.2,1),left .6s ease}
-.card[data-mood="happy"] .cat-inner{animation:hop .6s ease-in-out 1.3s infinite}
-.card[data-mood="sad"] .cat-inner{animation:tremble .4s linear 1.8s infinite}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;padding:15px 20px;border-radius:10px;
+  text-decoration:none;color:#fff;font-size:17px;font-weight:700;border:1px solid rgba(255,255,255,.12);
+  transition:transform .2s,box-shadow .2s,filter .2s}
+.btn.locked{background:linear-gradient(135deg,var(--red),var(--orange));box-shadow:0 6px 22px -6px rgba(255,59,92,.6)}
+.btn.verifying{background:linear-gradient(90deg,#0891b2 var(--p,0%),#16212f var(--p,0%));cursor:wait;
+  border-color:rgba(34,211,238,.4);font-family:var(--mono);font-size:15px}
+.btn.unlocked{background:linear-gradient(135deg,#06b6d4,var(--blue));box-shadow:0 6px 24px -6px rgba(34,211,238,.6)}
+.btn:not(.verifying):hover,.btn:focus-visible{transform:translateY(-1px);filter:brightness(1.1)}
+.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.hint{margin-top:11px;font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;line-height:1.5}
 
-.bubble{position:absolute;top:6px;left:100%;margin-left:-4px;background:#fff;color:#1e293b;font-weight:700;font-size:13px;
-  padding:7px 12px;border-radius:12px;white-space:nowrap;opacity:0;transition:opacity .4s;z-index:3}
-.card[data-side="left"] .bubble{left:auto;right:100%;margin:0 -4px 0 0}
-.card[data-mood="sad"] .bubble,.card[data-mood="happy"] .bubble{opacity:1;transition-delay:.9s}
-.card[data-mood="idle"] .bubble{transition-delay:0s}
+.note{padding:14px 18px;border-radius:12px;border:1px dashed var(--line);font-family:var(--mono);
+  font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+.note b{color:var(--cyan);font-weight:600}
 
-.part{transform-box:fill-box;transform-origin:center}
-.eye{transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
-.card[data-mood="sad"] .eye{transform:scale(1.4)}
-.eyes-happy,.brows,.mouth-sad,.mouth-happy,.tear{opacity:0}
-.card[data-mood="happy"] .eyes-normal,.card[data-mood="happy"] .mouth-idle,
-.card[data-mood="sad"] .mouth-idle{opacity:0}
-.card[data-mood="happy"] .eyes-happy,.card[data-mood="happy"] .mouth-happy,
-.card[data-mood="sad"] .mouth-sad,.card[data-mood="sad"] .brows{opacity:1}
-.card[data-mood="sad"] .tear{animation:tear 1.6s ease-in 2s infinite}
-.ear-l{transform-origin:44px 34px;transition:transform .6s}
-.ear-r{transform-origin:76px 34px;transition:transform .6s}
-.card[data-mood="sad"] .ear-l{transform:rotate(-16deg)}
-.card[data-mood="sad"] .ear-r{transform:rotate(16deg)}
-.card[data-mood="happy"] .ear-l{transform:rotate(6deg)}
-.card[data-mood="happy"] .ear-r{transform:rotate(-6deg)}
-.eyes-normal{animation:blink 4.5s infinite}
-
-@keyframes hop{0%,100%{transform:translateY(0) scale(1.05,.95)}45%{transform:translateY(-30px) scale(.96,1.05)}}
-@keyframes tremble{0%,100%{transform:translateX(-1.5px)}50%{transform:translateX(1.5px)}}
-@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
-@keyframes tear{0%{opacity:0;transform:translateY(-4px)}20%{opacity:1}100%{opacity:0;transform:translateY(22px)}}
-
-.actions{position:relative;z-index:2;display:flex;gap:10px}
-.btn,.sub-btn{display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;
-  font-weight:700;border-radius:12px;transition:transform .2s,box-shadow .2s}
-.sub-btn{padding:14px 18px;font-size:16px;background:var(--yt);box-shadow:0 4px 16px var(--ytglow)}
-.sub-btn:hover,.sub-btn:focus-visible{transform:scale(1.04);box-shadow:0 6px 22px rgba(255,0,51,.6)}
-.btn{flex:1;padding:14px 20px;font-size:17px;background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 20px var(--glow)}
-.btn:hover,.btn:focus-visible{transform:scale(1.02)}
-a:focus-visible{outline:3px solid #fff;outline-offset:2px}
-.disclaimer{padding:14px 18px;border-radius:12px;background:rgba(255,255,255,.02);
-  border:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--muted);text-align:center;line-height:1.5}
-
-@media (max-width:380px){.actions{flex-direction:column}.bubble{display:none}}
-@media (prefers-reduced-motion:reduce){.cat-inner,.eyes-normal,.tear{animation:none!important}.cat{transition:none!important}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pulse{50%{opacity:.35}}
+@media (max-width:400px){.wordmark{font-size:28px}.logo{width:48px;height:48px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrapper">
   <header>
-    <h1>TrueStepTech</h1>
-    <p>Official video resources &amp; direct links</p>
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 56 56" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+        <rect x="2" y="2" width="52" height="52" rx="14" fill="rgba(34,211,238,.08)" stroke="url(#g)" stroke-width="2"/>
+        <path d="M13 41H22V32H31V23H40" fill="none" stroke="url(#g)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="42" cy="15" r="3.5" fill="#22d3ee"/>
+      </svg>
+      <h1 class="wordmark">TrueStep<span>Tech</span></h1>
+    </div>
+    <p class="tag"><b>&gt;</b> official video resources &amp; direct links</p>
+    <div class="status"><i></i>LINKS ONLINE</div>
   </header>
 
   <div class="links-feed" id="feed"></div>
 
-  <div class="disclaimer">
-    Note: YouTube doesn't allow me to share this type of link directly, so I am using this page instead. Sorry for any inconvenience!
-  </div>
+  <div class="note"><b>// note:</b> YouTube doesn't allow me to share this type of link directly, so I am using this page instead. Sorry for any inconvenience!</div>
 </div>
-
-<!-- Cat template (cloned into every card) -->
-<template id="cat-tpl">
-  <div class="peek" aria-hidden="true">
-    <div class="cat">
-      <div class="bubble"></div>
-      <div class="cat-inner">
-        <svg viewBox="0 0 120 92">
-          <g class="ear-l"><polygon points="30,42 34,6 60,28" fill="#f0a35e"/><polygon points="37,35 38,17 51,28" fill="#ffb4c0"/></g>
-          <g class="ear-r"><polygon points="90,42 86,6 60,28" fill="#f0a35e"/><polygon points="83,35 82,17 69,28" fill="#ffb4c0"/></g>
-          <ellipse cx="60" cy="54" rx="34" ry="30" fill="#f2a65a"/>
-          <g stroke="#d9823a" stroke-width="3" stroke-linecap="round"><path d="M60 26V36M50 28L52 37M70 28L68 37"/></g>
-          <ellipse cx="60" cy="66" rx="15" ry="10" fill="#fff1dd"/>
-          <circle cx="36" cy="64" r="5" fill="#ff8fa3" opacity=".45"/><circle cx="84" cy="64" r="5" fill="#ff8fa3" opacity=".45"/>
-          <polygon points="55,59 65,59 60,65" fill="#ff8fa3"/>
-          <g stroke="rgba(255,255,255,.75)" stroke-width="1.5" stroke-linecap="round"><path d="M30 64L12 60M30 69L12 72M90 64L108 60M90 69L108 72"/></g>
-          <!-- normal / big pleading eyes -->
-          <g class="eyes-normal part">
-            <g class="eye part"><circle cx="46" cy="52" r="8" fill="#2b2230"/><circle cx="43" cy="49" r="3.2" fill="#fff"/><circle cx="49" cy="55" r="1.6" fill="#fff"/></g>
-            <g class="eye part"><circle cx="74" cy="52" r="8" fill="#2b2230"/><circle cx="71" cy="49" r="3.2" fill="#fff"/><circle cx="77" cy="55" r="1.6" fill="#fff"/></g>
-          </g>
-          <g class="eyes-happy" fill="none" stroke="#2b2230" stroke-width="3.5" stroke-linecap="round"><path d="M38 54Q46 43 54 54"/><path d="M66 54Q74 43 82 54"/></g>
-          <g class="brows" fill="none" stroke="#b06a2a" stroke-width="3.5" stroke-linecap="round"><path d="M36 42L55 35"/><path d="M65 35L84 42"/></g>
-          <g class="mouth-idle" fill="none" stroke="#2b2230" stroke-width="2.5" stroke-linecap="round"><path d="M60 65V69M53 70Q56.5 74 60 69Q63.5 74 67 70"/></g>
-          <g class="mouth-sad" fill="none" stroke="#2b2230" stroke-width="2.5" stroke-linecap="round"><path d="M60 65V69M53 76Q60 67 67 76"/></g>
-          <g class="mouth-happy"><path d="M52 69Q60 86 68 69Z" fill="#7a2e3a"/><ellipse cx="60" cy="78" rx="4.5" ry="3.5" fill="#ff7a8a"/></g>
-          <ellipse class="tear" cx="40" cy="64" rx="2.5" ry="4" fill="#8fd3ff"/>
-          <!-- paws gripping the button edge -->
-          <ellipse cx="38" cy="87" rx="13" ry="8" fill="#fff1dd" stroke="#e3c9a5"/>
-          <ellipse cx="82" cy="87" rx="13" ry="8" fill="#fff1dd" stroke="#e3c9a5"/>
-          <path d="M34 82V88M41 82V88M78 82V88M85 82V88" stroke="#e3c9a5" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-</template>
 
 <script>
 /* =====================================================
@@ -145,12 +115,16 @@ a:focus-visible{outline:3px solid #fff;outline-offset:2px}
 // Opens YouTube's subscribe prompt. Change the @handle if yours is different.
 const SUBSCRIBE_URL = "https://www.youtube.com/@TrueStepTech?sub_confirmation=1";
 
+// Click counter (Firebase Realtime Database URL, no trailing slash).
+// Leave as "" to turn counting off. Example: "https://your-project-default-rtdb.firebaseio.com"
+const COUNTER_URL = "https://truesteptech-video-links-default-rtdb.firebaseio.com";
+
 // HOW TO ADD A NEW VIDEO:
-//   1. Find the next line that starts with  //  (a commented box) below.
+//   1. Find the next line that starts with  //  (a spare box) below.
 //   2. Delete the two slashes  //  at the start of that line.
 //   3. Replace the title and the link. Done!
-// Keep them in order (oldest first, newest last). The page automatically
-// shows the NEWEST video at the top with the LATEST badge.
+// tag = the filter button it appears under (e.g. "Game Fixes"). New tags make new buttons automatically.
+// Keep them in order (oldest first, newest last). The page shows the NEWEST at the top with the LATEST badge.
 const VIDEOS = [
   { title: "Sleeping Dogs Not Launching Error (Fix#1)", url: "https://drive.google.com/file/d/1-7NlzrSxFq-zykPSYHADAQYX5bRdD2vH/view?usp=drive_link"  },
   { title: "Watch Dogs Not Launching Error Fix", url: "https://drive.google.com/file/d/1WUIJ4ll_umNuXfeNFhWotqo1iyY38A49/view?usp=drive_link" },
@@ -166,97 +140,139 @@ const VIDEOS = [
   { title: "Download & Install MS Office for Free", url: "https://getintopc.com/softwares/office-tools/office-tool-plus-2024-free-download/" },
 
   // ---- Spare boxes: remove the // to turn one on ----
-  // { title: "Video 13: Put Your Video Title Here", url: "https://your-link-13.com" },
-  // { title: "Video 14: Put Your Video Title Here", url: "https://your-link-14.com" },
-  // { title: "Video 15: Put Your Video Title Here", url: "https://your-link-15.com" },
-  // { title: "Video 16: Put Your Video Title Here", url: "https://your-link-16.com" },
-  // { title: "Video 17: Put Your Video Title Here", url: "https://your-link-17.com" },
-  // { title: "Video 18: Put Your Video Title Here", url: "https://your-link-18.com" },
-  // { title: "Video 19: Put Your Video Title Here", url: "https://your-link-19.com" },
-  // { title: "Video 20: Put Your Video Title Here", url: "https://your-link-20.com" },
-  // { title: "Video 21: Put Your Video Title Here", url: "https://your-link-21.com" },
-  // { title: "Video 22: Put Your Video Title Here", url: "https://your-link-22.com" },
-  // { title: "Video 23: Put Your Video Title Here", url: "https://your-link-23.com" },
-  // { title: "Video 24: Put Your Video Title Here", url: "https://your-link-24.com" },
-  // { title: "Video 25: Put Your Video Title Here", url: "https://your-link-25.com" },
-  // { title: "Video 26: Put Your Video Title Here", url: "https://your-link-26.com" },
-  // { title: "Video 27: Put Your Video Title Here", url: "https://your-link-27.com" },
-  // { title: "Video 28: Put Your Video Title Here", url: "https://your-link-28.com" },
-  // { title: "Video 29: Put Your Video Title Here", url: "https://your-link-29.com" },
-  // { title: "Video 30: Put Your Video Title Here", url: "https://your-link-30.com" },
-  // { title: "Video 31: Put Your Video Title Here", url: "https://your-link-31.com" },
-  // { title: "Video 32: Put Your Video Title Here", url: "https://your-link-32.com" },
+  // { title: "Video 10: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-10.com" },
+  // { title: "Video 11: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-11.com" },
+  // { title: "Video 12: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-12.com" },
+  // { title: "Video 13: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-13.com" },
+  // { title: "Video 14: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-14.com" },
+  // { title: "Video 15: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-15.com" },
+  // { title: "Video 16: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-16.com" },
+  // { title: "Video 17: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-17.com" },
+  // { title: "Video 18: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-18.com" },
+  // { title: "Video 19: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-19.com" },
+  // { title: "Video 20: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-20.com" },
+  // { title: "Video 21: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-21.com" },
+  // { title: "Video 22: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-22.com" },
+  // { title: "Video 23: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-23.com" },
+  // { title: "Video 24: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-24.com" },
+  // { title: "Video 25: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-25.com" },
+  // { title: "Video 26: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-26.com" },
+  // { title: "Video 27: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-27.com" },
+  // { title: "Video 28: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-28.com" },
+  // { title: "Video 29: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-29.com" },
+  // { title: "Video 30: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-30.com" },
+  // { title: "Video 31: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-31.com" },
+  // { title: "Video 32: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-32.com" },
+  // { title: "Video 33: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-33.com" },
+  // { title: "Video 34: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-34.com" },
+  // { title: "Video 35: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-35.com" },
+  // { title: "Video 36: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-36.com" },
+  // { title: "Video 37: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-37.com" },
+  // { title: "Video 38: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-38.com" },
+  // { title: "Video 39: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-39.com" },
 ];
 /* ===================================================== */
 
 const feed = document.getElementById("feed");
-const tpl = document.getElementById("cat-tpl");
-const SAY = { sad: "Subscribe first, pleeease? 🥺", happy: "Thank you! 💖", idle: "" };
 
-[...VIDEOS].reverse().forEach((v, i) => {  // newest first
+// ---- Click counter ----
+// Firebase keys can't contain . # $ [ ] / so the title is cleaned up. Don't rename a title
+// after publishing, or its count starts again from zero under the new name.
+function keyOf(title){ return title.trim().replace(/[^A-Za-z0-9]+/g, "_").slice(0, 80); }
+function track(path){
+  if (!COUNTER_URL || !path) return;
+  const [folder, key] = path.split("/");
+  try {
+    fetch(COUNTER_URL + "/" + folder + ".json", {
+      method: "PATCH", keepalive: true,
+      body: JSON.stringify({ [key]: { ".sv": { increment: 1 } } })
+    }).catch(() => {});
+  } catch (e) {}
+}
+
+// ---- Sub2Unlock (honor system: the page cannot really check YouTube) ----
+const VERIFY_SECONDS = 5;   // how long "Verifying…" lasts after they come back
+let verifying = false;
+let unlockedKeys = [];      // kept in memory only: a refresh locks everything again
+
+function render(card){
+  const a = card.querySelector(".btn"), key = card.dataset.key;
+  const open = unlockedKeys.includes(key);
+  card.dataset.state = open ? "unlocked" : "locked";
+  a.className = "btn " + card.dataset.state;
+  a.href = open ? card._url : SUBSCRIBE_URL;
+  a.dataset.track = (open ? "opens/" : "subscribes/") + key;
+  a.textContent = open ? "Open Link ↗" : "🔒 Subscribe to unlock";
+  card.querySelector(".chip").textContent = open ? "UNLOCKED" : "LOCKED";
+  card.querySelector(".hint").textContent = open
+    ? "Unlocked. Thanks for subscribing!"
+    : "Subscribe on YouTube, then come back to unlock this link.";
+  a.style.removeProperty("--p");
+}
+
+[...VIDEOS].reverse().forEach((v, i) => {   // newest first
   const card = document.createElement("div");
   card.className = "card";
-  card.dataset.mood = "idle";
+  card.style.animationDelay = (i * 70) + "ms";
+  card.dataset.key = keyOf(v.title);
+  card._url = v.url;
 
   const top = document.createElement("div");
   top.className = "card-top";
+  const num = VIDEOS.length - i;
+  top.innerHTML = '<span class="idx">#' + String(num).padStart(2, "0") + '</span><span class="spacer"></span>' +
+                  (i === 0 ? '<span class="badge">LATEST</span>' : "") + '<span class="chip"></span>';
+
   const h = document.createElement("h2");
   h.className = "card-title";
   h.textContent = v.title;
-  top.appendChild(h);
-  if (i === 0) {
-    const b = document.createElement("span");
-    b.className = "badge";
-    b.textContent = "LATEST";
-    top.appendChild(b);
-  }
 
-  const actions = document.createElement("div");
-  actions.className = "actions";
-  actions.innerHTML =
-    '<a class="sub-btn" data-mood="happy" target="_blank" rel="noopener noreferrer">Subscribe</a>' +
-    '<a class="btn" data-mood="sad" target="_blank" rel="noopener noreferrer">Open Link ↗</a>';
-  actions.children[0].href = SUBSCRIBE_URL;
-  actions.children[1].href = v.url;
+  const a = document.createElement("a");
+  a.className = "btn";
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
 
-  card.append(top, tpl.content.cloneNode(true), actions);
+  const hint = document.createElement("p");
+  hint.className = "hint";
+  hint.setAttribute("aria-live", "polite");
+
+  card.append(top, h, a, hint);
   feed.appendChild(card);
+  render(card);
 });
 
-function setMood(btn, mood){
-  const card = btn.closest(".card");
-  const peek = card.querySelector(".peek");
-  const a = btn.getBoundingClientRect(), p = peek.getBoundingClientRect();
-  const x = a.left + a.width / 2 - p.left;
-  const cat = card.querySelector(".cat");
-  const catHidden = card.dataset.mood === "idle";
-  if (catHidden) cat.style.transition = "transform 1s cubic-bezier(.4,0,.2,1)"; // no sideways slide while hidden
-  cat.style.setProperty("--x", x + "px");
-  card.dataset.side = x > p.width / 2 ? "left" : "right";
-  card.dataset.mood = mood;
-  card.querySelector(".bubble").textContent = SAY[mood];
-  if (catHidden) requestAnimationFrame(() => cat.style.transition = "");
+function startVerify(card, a){
+  verifying = true;
+  card.dataset.state = "verifying";
+  a.className = "btn verifying";
+  card.querySelector(".chip").textContent = "VERIFYING";
+  card.querySelector(".hint").textContent = "Checking your subscription… stay on this page.";
+  let left = VERIFY_SECONDS;
+  a.textContent = "Verifying subscription… " + left + "s";
+  const tick = setInterval(() => {
+    if (document.visibilityState !== "visible") return;   // counts only while they are back on this page
+    left--;
+    a.style.setProperty("--p", ((VERIFY_SECONDS - left) / VERIFY_SECONDS * 100) + "%");
+    if (left > 0) { a.textContent = "Verifying subscription… " + left + "s"; return; }
+    clearInterval(tick);
+    verifying = false;
+    unlockedKeys.push(card.dataset.key);                  // unlocks only THIS video
+    render(card);
+    card.querySelector(".hint").textContent = "Unlocked! Thank you for subscribing 🎉";
+  }, 1000);
 }
-function relax(card){ card.dataset.mood = "idle"; }
 
-const target = e => e.target.closest && e.target.closest("[data-mood]");
-let touchTimer;
-
-document.addEventListener("mouseover", e => { const t = target(e); if (t) setMood(t, t.dataset.mood); });
-document.addEventListener("mouseout",  e => {
-  const t = target(e);
-  if (t && !t.contains(e.relatedTarget)) relax(t.closest(".card"));
+feed.addEventListener("click", e => {
+  const a = e.target.closest(".btn");
+  if (!a) return;
+  if (a.classList.contains("verifying") || (a.classList.contains("locked") && verifying)) { e.preventDefault(); return; }
+  track(a.dataset.track);
+  if (a.classList.contains("locked")) startVerify(a.closest(".card"), a);
 });
-document.addEventListener("focusin",  e => { const t = target(e); if (t) setMood(t, t.dataset.mood); });
-document.addEventListener("focusout", e => { const t = target(e); if (t) relax(t.closest(".card")); });
-// Phones have no hover: react on touch and go back after a few seconds
-document.addEventListener("touchstart", e => {
-  const t = target(e);
-  if (!t) return;
-  clearTimeout(touchTimer);
-  setMood(t, t.dataset.mood);
-  touchTimer = setTimeout(() => relax(t.closest(".card")), 3500);
-}, { passive: true });
+feed.addEventListener("auxclick", e => {                 // middle-click opens in a new tab too
+  const a = e.target.closest(".btn");
+  if (a && e.button === 1 && !a.classList.contains("verifying")) track(a.dataset.track);
+});
 </script>
 </body>
 </html>
