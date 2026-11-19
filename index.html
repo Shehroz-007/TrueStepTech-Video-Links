@@ -138,6 +138,7 @@ const VIDEOS = [
   { title: "Fix 0xc00007b Error in Assassin's Creed 4 Black Flag ", url: "https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/" },
   { title: "Activate Windows 11 Home/Pro Safely & Permanently", url: "https://drive.google.com/file/d/1WWa6NXDX3XL_hZyt8Jp7r1HUXSaTDwEc/view" },
   { title: "Download & Install MS Office for Free", url: "https://getintopc.com/softwares/office-tools/office-tool-plus-2024-free-download/" },
+  
 
   // ---- Spare boxes: remove the // to turn one on ----
   // { title: "Video 10: Put Your Video Title Here", tag: "Game Fixes", url: "https://your-link-10.com" },
@@ -179,15 +180,20 @@ const feed = document.getElementById("feed");
 // Firebase keys can't contain . # $ [ ] / so the title is cleaned up. Don't rename a title
 // after publishing, or its count starts again from zero under the new name.
 function keyOf(title){ return title.trim().replace(/[^A-Za-z0-9]+/g, "_").slice(0, 80); }
+// Today's date in Pakistan time (YYYY-MM-DD). A new day starts at 12:00 midnight there,
+// and each day keeps its own counts, so yesterday's numbers are never lost.
+function today(){
+  try { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Karachi" }).format(new Date()); }
+  catch (e) { return new Date().toISOString().slice(0, 10); }
+}
 function track(path){
   if (!COUNTER_URL || !path) return;
   const [folder, key] = path.split("/");
-  try {
-    fetch(COUNTER_URL + "/" + folder + ".json", {
-      method: "PATCH", keepalive: true,
-      body: JSON.stringify({ [key]: { ".sv": { increment: 1 } } })
-    }).catch(() => {});
-  } catch (e) {}
+  const body = JSON.stringify({ [key]: { ".sv": { increment: 1 } } });
+  // 1) all-time total   2) today's count under daily/<date>/
+  [folder, "daily/" + today() + "/" + folder].forEach(p => {
+    try { fetch(COUNTER_URL + "/" + p + ".json", { method: "PATCH", keepalive: true, body }).catch(() => {}); } catch (e) {}
+  });
 }
 
 // ---- Sub2Unlock (honor system: the page cannot really check YouTube) ----
